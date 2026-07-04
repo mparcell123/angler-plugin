@@ -1,7 +1,7 @@
 {
   "name": "angler",
   "displayName": "Angler",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "description": "Sub-document search, extraction, and deck composition over your PowerPoint, Excel, Word, PDF, and Markdown.",
   "author": { "name": "Angler" },
   "homepage": "https://github.com/mparcell123/angler-plugin"

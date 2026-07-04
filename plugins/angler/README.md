@@ -19,8 +19,12 @@ Search, extract, and compose from your own PowerPoint, Excel, Word, PDF, and Mar
 
 - **Skill `using-angler`** — the find → extract → feedback loop for pulling specific atoms out of your documents.
 - **Skill `angler-compose`** — the HTML → PPTX composition workflow + visual-QA loop.
+- **Skill `angler-intel`** — corpus orientation, entity relationships/coverage/mentions, cross-document comparison, and finding the latest version of a document.
+- **Skill `angler-render`** — one-shot search-and-render of a specific chart, table, or figure, plus the inspect-and-refine loop for bad crops.
+- **Skill `angler-brief`** — cited briefs/reports from your documents (find → extract → cite → feedback).
 - **`/angler:doctor`** — diagnose the connection.
 - **`/angler:compose <goal>`** — build a deck from your indexed documents.
+- **`/angler:brief <topic>`** — write a cited brief from your indexed documents.
 - An MCP server (the `angler mcp-stdio` bridge).
 
 Run `angler --help` (or `angler <command> --help`) for the full CLI surface.

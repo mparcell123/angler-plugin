@@ -13,9 +13,10 @@ Angler indexes the user's documents down to individual atoms (a chart, a table, 
 
 ## The loop
 
-1. **Find** — `angler find "<query>" [--type <type>] [--limit 5] --only session_id,cursor,agent_action_hint,exhausted,results.chunk_id,results.preview,results.semantic_type`. Always pass `--only`. Capture `session_id` and `cursor` up front. (`--type` filters by atom type; exact values vary by format — check `angler find --help`.)
-2. **Paginate** — while a `cursor` comes back, call `angler more "<cursor>" --only …`. Do NOT re-run `find` with reworded queries — an `agent_action_hint: "paginate"` in the response is the signal to page, not re-search. `exhausted: true` (or no cursor) means done. Cursors expire in ~10 min.
+1. **Find** — `angler find "<query>" [--type <type>] [--limit 5] --only session_id,cursor,confidence.agent_action_hint,exhausted,results.chunk_id,results.preview,results.semantic_type`. Always pass `--only`. Capture `session_id` and `cursor` up front. (`--type` filters by atom type; exact values vary by format — check `angler find --help`.)
+2. **Paginate** — while a `cursor` comes back, call `angler more "<cursor>" --only …`. Do NOT re-run `find` with reworded queries — an `agent_action_hint: "paginate"` under `confidence` in the response is the signal to page, not re-search. `exhausted: true` (or no cursor) means done. Cursors expire in ~10 min.
 3. **Extract** — `angler extract <chunk_id> --format image|markdown|data|pptx [--output <file>]`, or `--chunk-ids id1,id2` for a batch. `--format image` defaults to the seed atom + its visual cluster; add `--scope atom` for just the seed.
+   **Bulk-resolve a results page** — `angler gather --chunk-ids id1,id2,... [--include-data]` (max 25) fetches metadata for many hits in one call; `--include-data` adds each atom's raw text/metadata block. Use it to triage a find page before extracting. For parsed table cells (`{headers, rows}`), use `angler extract <id> --format data`.
 4. **Feedback** — `angler feedback --session-id "<session>" --used "<used_ids>" --unused "<unused_ids>" [--reason off_topic]`. Send it for every meaningful task; the explicit signal outranks every other feedback layer.
 
 ## Bundle related atoms
@@ -24,6 +25,6 @@ Angler indexes the user's documents down to individual atoms (a chart, a table, 
 
 ## Building a deck?
 
-Use the `angler-compose` skill (or `/angler:compose`) for the HTML → PPTX composition workflow.
+Use the `angler-compose` skill (or `/angler:compose`) for the HTML → PPTX composition workflow. For an image of a specific chart/table/figure, use the `angler-render` skill. For corpus exploration, entity mapping, or "find the latest version" questions, use the `angler-intel` skill.
 
 Run `angler --help` or `angler <command> --help` for the full flag surface.
