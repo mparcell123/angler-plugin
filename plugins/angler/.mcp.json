@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "angler": {
+      "command": "${HOME}/.local/bin/angler",
+      "args": ["mcp-stdio"],
+      "env": {}
+    }
+  }
+}

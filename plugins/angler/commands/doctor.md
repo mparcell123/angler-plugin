@@ -1,0 +1,11 @@
+---
+description: Diagnose the Angler connection — CLI on PATH (no shadow), app running vs signed out, MCP reachable, no duplicate server — and print the exact fix.
+---
+
+Diagnose the user's Angler setup. Run each check, report a short PASS/FAIL, then give the single most important next action.
+
+1. **CLI installed, no shadow** — run `command -v angler` and `readlink ~/.local/bin/angler`. If `command -v angler` is empty → not on PATH ("Launch Angler.app once; it installs `~/.local/bin/angler` at startup, and restart your shell"). If `command -v angler` resolves to something OTHER than `~/.local/bin/angler` (e.g. `~/.cargo/bin/angler`) → a stale build is shadowing the app CLI; tell the user which one wins and to remove/deprioritize the shadow.
+2. **App running vs auth failing** — run `angler status`. Interpret the failure text: output containing "Angler is not running" / "Launch Angler.app" → the app is DOWN (tell the user to launch Angler.app). Output containing "Authentication failed" / "token may be stale" → the app is running but the session/token is invalid → tell the user to sign in to Angler; if they're already signed in, restart Angler.app. (The CLI can't distinguish a signed-out session from a stale token — both surface the same message — so cover both.) Success → healthy.
+3. **CLI ↔ server (HTTP)** — a successful `angler status` proves the CLI can reach Angler's HTTP server. It does NOT prove this plugin's `mcp-stdio` bridge loaded in Claude Code — that's check 4.
+4. **Plugin MCP loaded + no external duplicate** — run `claude mcp list`. This plugin's server appears as `plugin:angler:angler` (should be "Connected") — that is the real proof the bridge works. A BARE `angler` entry (e.g. `angler: http://localhost:<port>/mcp`) is a separate EXTERNAL registration (the Settings "Add to Claude Code" button) — a duplicate that causes ambiguous tool schemas. Tell the user to keep the plugin OR the external one, not both (`claude mcp remove angler` drops the external). In Claude Code, `/mcp` also shows live connection status.
+5. **Compose preview (optional)** — run `command -v soffice`. If absent, deck *composition* still works (the `.pptx` is produced), but the `/angler:compose` visual-QA PNG/PDF preview won't render. Note that Angler's app-managed LibreOffice may not be exposed on PATH.

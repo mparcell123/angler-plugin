@@ -1,0 +1,15 @@
+{
+  "name": "angler-plugins",
+  "owner": {
+    "name": "Angler"
+  },
+  "description": "Angler \u2014 sub-document search, extraction, and deck composition.",
+  "plugins": [
+    {
+      "name": "angler",
+      "source": "./plugins/angler",
+      "version": "1.0.0",
+      "description": "Sub-document search, extraction, and deck composition over your documents."
+    }
+  ]
+}
