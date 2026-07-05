@@ -8,7 +8,7 @@
     {
       "name": "angler",
       "source": "./plugins/angler",
-      "version": "1.2.0",
+      "version": "1.2.1",
       "description": "Sub-document search, extraction, and deck composition over your documents."
     }
   ]
